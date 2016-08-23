@@ -65,7 +65,7 @@ setup(
     url=url,
     license=license,
     description=description,
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
     install_requires=[
         "Django >= 1.7.1",
         "celery >= 3.1.22",
