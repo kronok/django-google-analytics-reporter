@@ -26,6 +26,8 @@ Since that's a little confusing to remember how to use it properly, Use the **Pa
 
 To send a pageview with the user_id and client_id extracted from the request. **This does the same thing as the Tracker example above.**
 
+**Send an event**
+
     from google_analytics_reporter import PageView
     
     PageView(request=self.request).send(page='/newsletter/thankyou/', label='An optional label')
