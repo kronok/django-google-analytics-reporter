@@ -5,7 +5,7 @@ import sys
 
 
 name = 'django-google-analytics-reporter'
-package = 'google-analytics-reporter'
+package = 'google_analytics_reporter'
 description = 'An asynchronous Django google analytics reporter'
 url = 'https://github.com/kronok/django-google-analytics-reporter'
 author = 'Brandon Jurewicz'

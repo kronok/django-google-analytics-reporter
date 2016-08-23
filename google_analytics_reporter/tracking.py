@@ -1,10 +1,9 @@
 import uuid
 
-from django.contrib.sites.models import Site
 from django.utils.functional import cached_property
 from django.conf import settings
 
-from analytics.tasks import send_report_task
+from .tasks import send_report_task
 
 GOOGLE_ID = settings.GOOGLE_ANALYTICS_ID
 
@@ -24,16 +23,10 @@ class Tracker(object):
         if not self.request:
             self.client_id = uuid.uuid4()
         else:
-            # try:
             _ga = self.request.COOKIES.get('_ga')
             if _ga:
                 ga_split = _ga.split('.')
                 self.client_id = '.'.join((ga_split[2], ga_split[3]))
-                #assert False, self.client_id
-            # except:
-                #assert False, self.request.COOKIES.get('_ga')
-                #we really can't allow this to throw an exception since it's used in important places
-                # pass
         return self.client_id
 
     @cached_property
@@ -86,7 +79,7 @@ class PageView(Tracker):
         value = kwargs.get('value') or kwargs.get('ev')
         params = {
             't': self.anal_type,
-            'dh': domain or 'juicerecipes.com', #mydomain.com
+            'dh': domain or settings.DEFAULT_TRACKING_DOMAIN, #mydomain.com
             'dp': page, #/home
             'dt': title #hompage
         }
