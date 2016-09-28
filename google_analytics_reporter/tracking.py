@@ -63,6 +63,14 @@ class Tracker(object):
             kwargs.update(self.type_params(*args, **kwargs))
         return kwargs
 
+    def debug(self, *args, **kwargs):
+        return self.get_payload(*args, **kwargs)
+
+    def sync_send(self, *args, **kwargs):
+        # For use when you don't want to send as an async task through Celery
+        payload = self.get_payload(*args, **kwargs)
+        return send_report_task(payload)
+
     def send(self, *args, **kwargs):
         payload = self.get_payload(*args, **kwargs)
         return send_report_task.delay(payload)
@@ -96,6 +104,8 @@ class Event(Tracker):
     def type_params(self, *args, **kwargs):
         category = kwargs.get('category') or kwargs.get('ec')
         action = kwargs.get('action') or kwargs.get('ea')
+        document_path = kwargs.get('document_path') or kwargs.get('dp')
+        document_title = kwargs.get('document_title') or kwargs.get('dt')
         label = kwargs.get('label') or kwargs.get('el')
         value = kwargs.get('value') or kwargs.get('ev')
         params = {
@@ -103,6 +113,10 @@ class Event(Tracker):
             'ec': category, #video
             'ea': action, #play
         }
+        if document_path:
+            params['dp'] = document_path
+        if document_title:
+            params['dt'] = document_title
         if label:
             params['el'] = label
         if value:
