@@ -21,7 +21,7 @@ class Tracker(object):
         if self.client_id:
             return self.client_id
         if not self.request:
-            self.client_id = uuid.uuid4()
+            self.client_id = str(uuid.uuid4())
         else:
             _ga = self.request.COOKIES.get('_ga')
             if _ga:
@@ -106,6 +106,11 @@ class Event(Tracker):
         action = kwargs.get('action') or kwargs.get('ea')
         document_path = kwargs.get('document_path') or kwargs.get('dp')
         document_title = kwargs.get('document_title') or kwargs.get('dt')
+        campaign_id = kwargs.get('campaign_id') or kwargs.get('ci')
+        campaign_name = kwargs.get('campaign_name') or kwargs.get('cn')
+        campaign_source = kwargs.get('campaign_source') or kwargs.get('cs')
+        campaign_medium = kwargs.get('campaign_medium') or kwargs.get('cm')
+        campaign_content = kwargs.get('campaign_content') or kwargs.get('cc')
         label = kwargs.get('label') or kwargs.get('el')
         value = kwargs.get('value') or kwargs.get('ev')
         params = {
@@ -117,6 +122,16 @@ class Event(Tracker):
             params['dp'] = document_path
         if document_title:
             params['dt'] = document_title
+        if campaign_id:
+            params['ci'] = campaign_id
+        if campaign_name:
+            params['cn'] = campaign_name
+        if campaign_source:
+            params['cs'] = campaign_source
+        if campaign_medium:
+            params['cm'] = campaign_medium
+        if campaign_content:
+            params['cc'] = campaign_content
         if label:
             params['el'] = label
         if value:
