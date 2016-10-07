@@ -57,7 +57,7 @@ if sys.argv[-1] == 'publish':
 
 setup(
     name='django-google-analytics-reporter',
-    version='0.0.1',
+    version=get_version(package),
     author=author,
     author_email=author_email,
     packages=get_packages(package),
